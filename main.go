@@ -13,5 +13,5 @@ func main() {
 	}
 	r := gin.Default()
 	route.RouteInit(r)
-	r.Run(":9999")
+	r.Run(":80")
 }
