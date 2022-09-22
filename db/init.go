@@ -24,7 +24,7 @@ func Init() error {
 	if dataBase == "" {
 		dataBase = "golang_demo"
 	}
-	
+
 	source = fmt.Sprintf(source, user, pwd, addr, port, dataBase)
 	fmt.Println("start init mysql with ", source)
 
