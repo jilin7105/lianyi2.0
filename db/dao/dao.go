@@ -1,8 +1,8 @@
 package dao
 
 import (
-	"wxcloudrun-golang/db"
-	"wxcloudrun-golang/db/model"
+	"lianyi/db"
+	"lianyi/db/model"
 )
 
 const tableName = "Counters"
