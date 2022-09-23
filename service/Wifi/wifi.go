@@ -64,14 +64,18 @@ func GetWifiByOpenid(c *gin.Context) {
 func GetWifiById(c *gin.Context) {
 	//openid := c.GetHeader("X-WX-OPENID")
 	var wifi model.Wifi
-	id := c.Param("id")
-	if id != "" {
+	id := c.Query("id")
+
+	if id == "" {
 		c.JSON(http.StatusOK, gin.H{"status": 1003, "msg": "系统异常"})
 		return
 	}
 	db_base := db.Get()
-	db_base.Find(&wifi, id)
-
+	db_base.First(&wifi, id)
+	if wifi.Id <= 0 {
+		c.JSON(http.StatusOK, gin.H{"status": 1003, "msg": "系统异常"})
+		return
+	}
 	c.JSON(http.StatusOK, gin.H{"status": 0,
 		"data": gin.H{
 			"wifi": wifi,
@@ -84,7 +88,7 @@ func GetWifiById(c *gin.Context) {
 func WifiConnSucess(c *gin.Context) {
 	openid := c.GetHeader("X-WX-OPENID")
 	var wifiConnlog model.WifiConnlog
-	id := c.Param("id")
+	id := c.Query("id")
 	atoi, err := strconv.Atoi(id)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{"status": 1003, "msg": ""})
