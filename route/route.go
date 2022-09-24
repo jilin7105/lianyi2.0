@@ -18,4 +18,5 @@ func RouteInit(r *gin.Engine) {
 	r.GET("/api/wifi/get-wifi", Wifi.GetWifiById)         //获取wifi根据id ，会用于扫码链接
 	r.GET("/api/wifi/get-inv-wifi", Wifi.GetWifiByOpenid) //我收录的wifi
 	r.GET("/api/wifi/conn-success", Wifi.WifiConnSucess)  //成功链接记录
+	r.GET("/api/wifi/get-wifi-qr", Wifi.GetWifiQr)        //获取二维码
 }

@@ -7,7 +7,10 @@
 package Wifi
 
 import (
+	"bytes"
+	"encoding/json"
 	"github.com/gin-gonic/gin"
+	"io/ioutil"
 	"lianyi/db"
 	"lianyi/db/model"
 	"net/http"
@@ -104,5 +107,57 @@ func WifiConnSucess(c *gin.Context) {
 	db_base.Save(&wifiConnlog)
 
 	c.JSON(http.StatusOK, gin.H{"status": 0})
+
+}
+
+//链接成功日志
+func GetWifiQr(c *gin.Context) {
+	//openid := c.GetHeader("X-WX-OPENID")
+
+	var data map[string]interface{}
+	id := c.Query("id")
+	atoi, err := strconv.Atoi(id)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{"status": 1003, "msg": ""})
+		return
+	}
+	if atoi <= 0 {
+		c.JSON(http.StatusOK, gin.H{"status": 1004, "msg": ""})
+		return
+	}
+
+	data["page"] = "pages/connwifi/connwifi?id=" + id
+	data["scene"] = "id=" + id
+	data["check_path"] = false
+	data["env_version"] = "release"
+	marshal, err := json.Marshal(data)
+
+	client := &http.Client{}
+	req, _ := http.NewRequest("POST", "https: //api.weixin.qq.com/wxa/getwxacodeunlimit", bytes.NewBuffer(marshal))
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("charset", "UTF-8")
+	req.Header.Set("client_id", "584718660900237696")
+
+	resp, err := client.Do(req)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{"status": 1004, "msg": "异常"})
+		return
+	}
+
+	defer resp.Body.Close()
+
+	body, _ := ioutil.ReadAll(resp.Body) //读取数据
+	obj := make(map[string]interface{})
+	if err := json.Unmarshal(body, &obj); err != nil {
+		c.JSON(http.StatusOK, gin.H{"status": 1004, "msg": "异常"})
+		return
+	}
+
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{"status": 1004, "msg": ""})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"status": 0, "data": obj})
 
 }
