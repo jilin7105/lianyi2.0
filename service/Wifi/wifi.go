@@ -130,7 +130,7 @@ func GetWifiQr(c *gin.Context) {
 	data["page"] = "pages/connwifi/connwifi"
 	data["scene"] = id
 	data["check_path"] = false
-	data["env_version"] = "trial"
+	data["env_version"] = "release"
 	marshal, err := json.Marshal(data)
 
 	client := &http.Client{}
