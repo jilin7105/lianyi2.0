@@ -134,7 +134,7 @@ func GetWifiQr(c *gin.Context) {
 	marshal, err := json.Marshal(data)
 
 	client := &http.Client{}
-	req, _ := http.NewRequest("POST", "https: //api.weixin.qq.com/wxa/getwxacodeunlimit", bytes.NewBuffer(marshal))
+	req, _ := http.NewRequest("POST", "https://api.weixin.qq.com/wxa/getwxacodeunlimit", bytes.NewBuffer(marshal))
 	req.Header.Set("Content-Type", "application/json")
 
 	resp, err := client.Do(req)
