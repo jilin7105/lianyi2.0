@@ -115,7 +115,7 @@ func WifiConnSucess(c *gin.Context) {
 func GetWifiQr(c *gin.Context) {
 	//openid := c.GetHeader("X-WX-OPENID")
 
-	var data map[string]interface{}
+	data := make(map[string]interface{})
 	id := c.Query("id")
 	atoi, err := strconv.Atoi(id)
 	if err != nil {
@@ -127,7 +127,7 @@ func GetWifiQr(c *gin.Context) {
 		return
 	}
 
-	data["page"] = "pages/connwifi/connwifi?id=" + id
+	data["page"] = "pages/connwifi/connwifi"
 	data["scene"] = "id=" + id
 	data["check_path"] = false
 	data["env_version"] = "release"
