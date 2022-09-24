@@ -13,6 +13,7 @@ import (
 	"io/ioutil"
 	"lianyi/db"
 	"lianyi/db/model"
+	"log"
 	"net/http"
 	"strconv"
 )
@@ -135,8 +136,6 @@ func GetWifiQr(c *gin.Context) {
 	client := &http.Client{}
 	req, _ := http.NewRequest("POST", "https: //api.weixin.qq.com/wxa/getwxacodeunlimit", bytes.NewBuffer(marshal))
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("charset", "UTF-8")
-	req.Header.Set("client_id", "584718660900237696")
 
 	resp, err := client.Do(req)
 	if err != nil {
@@ -147,6 +146,7 @@ func GetWifiQr(c *gin.Context) {
 	defer resp.Body.Close()
 
 	body, _ := ioutil.ReadAll(resp.Body) //读取数据
+	log.Println(body)
 	obj := make(map[string]interface{})
 	if err := json.Unmarshal(body, &obj); err != nil {
 		c.JSON(http.StatusOK, gin.H{"status": 1004, "msg": "异常"})
