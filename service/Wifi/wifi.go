@@ -149,16 +149,11 @@ func GetWifiQr(c *gin.Context) {
 	body, _ := ioutil.ReadAll(resp.Body) //读取数据
 	log.Println(body)
 	obj := make(map[string]interface{})
-	if err := json.Unmarshal(body, &obj); err != nil {
-		c.JSON(http.StatusOK, gin.H{"status": 1004, "msg": "异常"})
+	if err := json.Unmarshal(body, &obj); err == nil {
+		c.JSON(http.StatusOK, gin.H{"status": 1004, "data": obj})
 		return
 	}
 
-	if err != nil {
-		c.JSON(http.StatusOK, gin.H{"status": 1004, "msg": ""})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{"status": 0, "data": obj})
+	c.JSON(http.StatusOK, gin.H{"status": 0, "data": body})
 
 }
