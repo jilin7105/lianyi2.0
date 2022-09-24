@@ -139,6 +139,7 @@ func GetWifiQr(c *gin.Context) {
 
 	resp, err := client.Do(req)
 	if err != nil {
+		log.Println(err)
 		c.JSON(http.StatusOK, gin.H{"status": 1004, "msg": "异常"})
 		return
 	}
